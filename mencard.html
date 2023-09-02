@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"/> -->
+	<title>
+	</title>
+	<link rel="stylesheet" href="index.css"/>
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        *{
+	margin:0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+.main{
+	position: relative;
+	height: 100vh;
+	width: 100%;
+}
+.main header{
+	position: relative;
+	height: 15vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	background: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url('https://images.pexels.com/photos/1486222/pexels-photo-1486222.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+	background-size: cover;
+	background-position: center center;
+	font-size: 1.5rem;
+	color: #fff;
+	text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+.main header .iconShopping{
+	cursor: pointer;
+	z-index: 1;
+	position: relative;
+	font-size: 1.8rem;
+}
+.main header .iconShopping p{
+	position: absolute;
+	top: -5px;
+	right: -12px;
+	font-size: 0.69rem;
+	background-color: #000;
+	padding: 5px 5px;
+	border-radius: 50%;
+}
+/*items*/
+.main .itemsBox{
+	position: relative;
+	height: calc(100% - 15vh);
+	width: 90%;
+	margin:0 auto;
+	overflow: hidden;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-gap: 10px;
+	padding: 50px 25px;
+}
+.main .itemsBox .item{
+	position: relative;
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+	padding: 10px 25px;
+	box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+.main .itemsBox .item img{
+	position: relative;
+	width: 100%;
+	height: 60%;
+	object-fit: contain;
+}
+.main .itemsBox .item h1{
+	position: relative;
+	width: 100%;
+	text-align: center;
+	font-size: 1.2rem;
+	font-weight: lighter;
+	padding: 10px 0;
+}
+.main .itemsBox .item p{
+	position: relative;
+	width: 100%;
+	text-align: right;
+	font-size: 1.2rem;
+	font-weight: lighter;
+	padding: 10px 0;
+	color: #017bf5;
+}
+.main .itemsBox .item a{
+	position: relative;
+	text-align: left;
+	font-size: 1.2rem;
+	font-weight: lighter;
+	padding: 10px 0;
+	background: #0f0f0f;
+	text-decoration: none;
+	color: #fff;
+	padding: 10px 15px;
+	text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+.main .itemsBox .item a:hover{
+	background: #0f0f0fa5;
+}
+
+/*cart box*/
+.cartBox{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 99999;
+	transition: 0.3s linear;
+	transform: scale(0);
+}
+.cartBox.active{
+	transform: scale(1);
+}
+.cartBox .cart{
+	position: relative;
+	height: 70%;
+	width: 80%;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.cartBox .cart i{
+	position: absolute;
+	right: 0;
+	top: 0;
+	background:#f00;
+	padding:10px 15px;
+	color: #fff;
+	cursor: pointer;
+}
+.cartBox .cart i:hover{
+	background: #ff0000a5;
+}
+.cartBox .cart h1{
+	position: relative;
+	margin-top: 2%;
+	font-size: 2.8rem;
+	color: #017bf5;
+}
+    </style>
+    <script>
+		
+		function Delete(e){
+			let items = [];
+			JSON.parse(localStorage.getItem('items')).map(data=>{
+				if(data.id != e.parentElement.parentElement.children[0].textContent){
+					
+					items.push(data);
+
+				}
+			});
+			localStorage.setItem('items',JSON.stringify(items));
+			window.location.reload();
+		};
+	</script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="index.html"><span style="color: palevioletred;">FASHION</span> STYLE</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="gallery.html">Gallery </a>
+              </li>
+              
+            
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 Shop
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="mencard.html">MENS</a></li>
+                  <li><a class="dropdown-item" href="womencard.html">WOMENS</a></li>
+                  <li><a class="dropdown-item" href="kidcard.html">KIDS</a></li>
+                
+                </ul>
+              </li>
+
+              
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact </a>
+              </li>
+            
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+	<div class="main">
+		<header id="header" class="header">
+			<h1>Shopping Cart</h1>
+			<div class="iconShopping">
+				<p>0</p>
+				<i class="fa fa-shopping-cart"></i>
+			</div>
+		</header><!-- /header -->
+        <div class="container-fluid">
+            <div class="row">
+
+	<div class="itemsBox ">
+			<div class="item col-4">
+				<img src="https://pk.sapphireonline.pk/cdn/shop/files/MSTE2P23IV23_1.jpg?v=1692781628&width=400"/>
+				<div class="itemInfo">
+					<h1>Men's cutton dress</h1>
+					<p>$<span>6,000</span></p>
+					<a href="#" title="add to cart" class="attToCart">Add to cart</a>
+				</div>
+			</div>
+			<div class="item col-4">
+				<img src="https://pk.sapphireonline.pk/cdn/shop/files/MSTEKR23IV21_1.jpg?v=1692782858&width=400"/>
+				<div class="itemInfo">
+					<h1>Men,s cutton dress</h1>
+					<p>$<span>11,000</span></p>
+					<a href="#" title="add to cart" class="attToCart">Add to cart</a>
+				</div>
+			</div>
+			<div class="item col-4">
+				<img src="https://pk.sapphireonline.pk/cdn/shop/files/MSTEKR23IV24_2.jpg?v=1692782883&width=400"/>
+				<div class="itemInfo">
+					<h1>Men's cutton dress</h1>
+					<p>$<span>5000</span></p>
+					<a href="#" title="add to cart" class="attToCart">Add to cart</a>
+				</div>
+			</div>
+
+
+			
+		</div>
+    </div>
+	
+    <div class="row">
+
+        <div class="itemsBox ">
+                <div class="item col-4">
+                  <img src="https://www.borjan.com.pk/cdn/shop/files/1_2161bccb-5af6-45ac-a1e4-f369c2fed68d.png?v=1688727478">
+
+                    <div class="itemInfo">
+                        <h1>Men's flat slippers</h1>
+                        <p>$<span>1200</span></p>
+                        <a href="#" title="add to cart" class="attToCart">Add to cart</a>
+                    </div>
+                </div>
+                <div class="item col-4">
+                  <img src="https://www.borjan.com.pk/cdn/shop/files/01_8e04cc8a-4ae0-4b81-9854-d6c07d887c2e.png?v=1683018125">
+                    <div class="itemInfo">
+                        <h1>Men,s SLIPPERS</h1>
+                        <p>$<span>53,00</span></p>
+                        <a href="#" title="add to cart" class="attToCart">Add to cart</a>
+                    </div>
+                </div>
+                <div class="item col-4">
+                  <img src="https://thegracepk.com/cdn/shop/products/il_794xN.3225901633_4dr8_400x.jpg?v=16263574050">
+                    <div class="itemInfo">
+                        <h1>Men's wallet</h1>
+                        <p>$<span>2500</span></p>
+                        <a href="#" title="add to cart" class="attToCart">Add to cart</a>
+                    </div>
+                </div>
+    
+    
+                
+            </div>
+        </div>
+    </div>
+		
+		
+		
+	</div>
+
+    
+
+
+    <footer class="bg-dark text-center text-white" style="margin-top: 500px;">
+        <!-- Grid container -->
+        <div class="container p-4">
+          <!-- Section: Social media -->
+          <section class="mb-4">
+            <!-- Facebook -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+      
+            <!-- Twitter -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+              ><i class="fab fa-twitter"></i
+            ></a>
+      
+            <!-- Google -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+              ><i class="fab fa-google"></i
+            ></a>
+      
+            <!-- Instagram -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+              ><i class="fab fa-instagram"></i
+            ></a>
+      
+            <!-- Linkedin -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+      
+            <!-- Github -->
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"
+              ><i class="fab fa-github"></i
+            ></a>
+          </section>
+          <!-- Section: Social media -->
+      
+          <!-- Section: Form -->
+          <section class="">
+            <form action="">
+              <!--Grid row-->
+              <div class="row d-flex justify-content-center">
+                <!--Grid column-->
+                <div class="col-auto">
+                  <p class="pt-2">
+                    <strong>Sign up for our newsletter</strong>
+                  </p>
+                </div>
+                <!--Grid column-->
+      
+                <!--Grid column-->
+                <div class="col-md-5 col-12">
+                  <!-- Email input -->
+                  <div class="form-outline form-white mb-4">
+                    <input type="email" id="form5Example21" class="form-control" />
+                    <label class="form-label" for="form5Example21">Email address</label>
+                  </div>
+                </div>
+                <!--Grid column-->
+      
+                <!--Grid column-->
+                <div class="col-auto">
+                  <!-- Submit button -->
+                  <button type="submit" class="btn btn-outline-light mb-4">
+                    Subscribe
+                  </button>
+                </div>
+                <!--Grid column-->
+              </div>
+              <!--Grid row-->
+            </form>
+          </section>
+          <!-- Section: Form -->
+      
+          <!-- Section: Text -->
+          <section class="mb-4">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio earum
+              repellat quaerat voluptatibus placeat nam, commodi optio pariatur est quia magnam
+              eum harum corrupti dicta, aliquam sequi voluptate quas.
+            </p>
+          </section>
+          <!-- Section: Text -->
+      
+          <!-- Section: Links -->
+          <section class="">
+            <!--Grid row-->
+            <div class="row">
+             
+      
+            
+      
+              <!--Grid column-->
+              <center>
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Links</h5>
+      
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <a href="index.html" class="text-white">index</a>
+                  </li>
+                  <li>
+                    <a href="shop.html" class="text-white">shop</a>
+                  </li>
+                  <li>
+                    <a href="gallery.html" class="text-white">gallery</a>
+                  </li>
+                  <li>
+                    <a href="contact.html" class="text-white">contact</a>
+                  </li>
+                </ul>
+              </div>
+            </center>
+              <!--Grid column-->
+      
+              
+              <!--Grid column-->
+            </div>
+            <!--Grid row-->
+          </section>
+          <!-- Section: Links -->
+        </div>
+        <!-- Grid container -->
+      
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(229, 110, 110, 0.2);">
+          © 2020 Copyright:
+          <a class="text-white" href="https://mdbootstrap.com/"></a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+	<div class="cartBox">
+		<div class="cart">
+			<i class="fa fa-close"></i>
+			<h1>Cart</h1>
+			<table></table>
+		</div>
+	</div>
+
+ 
+
+	<!-- script -->
+	<script src="index.js"></script>
+    
+</body>
+</html>
